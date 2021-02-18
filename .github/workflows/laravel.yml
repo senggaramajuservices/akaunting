@@ -19,12 +19,13 @@ jobs:
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      run: composer install ; npm install ; npm run dev
     - name: Generate key
-      run: php artisan key:generate
+      run: php artisan install --db-name="akaunting" --db-username="root" --db-password="F@izal92" --admin-email="faizal.hamdan92@gmail.com" --admin-password="F@izal92"
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Create Database
+      run: php artisan sample-data:seed
       run: |
         mkdir -p database
         touch database/database.sqlite
